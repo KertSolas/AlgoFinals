@@ -48,6 +48,7 @@ public class AlgoFinals extends JFrame {
         pack();
     }
 
+    //main
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AlgoFinals().setVisible(true));
     }
