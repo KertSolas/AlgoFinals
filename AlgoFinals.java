@@ -15,7 +15,7 @@ public class AlgoFinals extends JFrame {
     public AlgoFinals() {
         setTitle("8-Bit Paint Program");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         currentColor = Color.BLACK;
 
@@ -43,10 +43,9 @@ public class AlgoFinals extends JFrame {
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(canvas, BorderLayout.CENTER);
-        getContentPane().add(palette, BorderLayout.SOUTH);
+        getContentPane().add(palette, BorderLayout.WEST);
 
         pack();
-        setLocationRelativeTo(null);
     }
 
     public static void main(String[] args) {
