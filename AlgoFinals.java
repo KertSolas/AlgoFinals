@@ -31,6 +31,7 @@ public class AlgoFinals extends JFrame {
         });
 
         Palette palette = new Palette();
+        // Eraser eraser = new Eraser();
         palette.addButton(Color.BLACK);
         palette.addButton(Color.RED);
         palette.addButton(Color.GREEN);
@@ -44,13 +45,9 @@ public class AlgoFinals extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(canvas, BorderLayout.CENTER);
         getContentPane().add(palette, BorderLayout.WEST);
+   
 
         pack();
-    }
-
-    //main
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new AlgoFinals().setVisible(true));
     }
 
     private static class Canvas extends JPanel {
@@ -62,17 +59,6 @@ public class AlgoFinals extends JFrame {
             clearCanvas();
     
             MouseAdapter mouseAdapter = new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    int x = e.getX() / PIXEL_SIZE;
-                    int y = e.getY() / PIXEL_SIZE;
-    
-                    if (SwingUtilities.isLeftMouseButton(e)) {
-                        setPixelColor(x, y, currentColor);
-                    } else if (SwingUtilities.isRightMouseButton(e)) {
-                        fill(x, y, currentColor);
-                    }
-                }
     
                 @Override
                 public void mouseDragged(MouseEvent e) {
@@ -127,11 +113,11 @@ public class AlgoFinals extends JFrame {
             }
     
             pixels[x][y] = replacementColor;
-    
-            floodFill(x - 1, y, targetColor, replacementColor);
-            floodFill(x + 1, y, targetColor, replacementColor);
-            floodFill(x, y - 1, targetColor, replacementColor);
-            floodFill(x, y + 1, targetColor, replacementColor);
+            
+            floodFill(x - 1, y, targetColor, replacementColor); // go north
+            floodFill(x + 1, y, targetColor, replacementColor); // go south
+            floodFill(x, y - 1, targetColor, replacementColor); // go west
+            floodFill(x, y + 1, targetColor, replacementColor); // go east
         }
     
         @Override
@@ -183,4 +169,38 @@ public class AlgoFinals extends JFrame {
             void onColorSelected(Color color);
         }
     }
+
+
+    // Needs to be fixed
+    // public class Eraser extends JPanel {
+    //     private static final int BUTTON_SIZE = 20;
+
+    //     private Color selectedColor;
+    //     private Eraser listener;
+
+    //     public Eraser() {
+    //         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    //         selectedColor = Color.BLACK;
+    //     }
+
+    //     public void addButton(Color color) {
+    //         JButton button = new JButton();
+    //         button.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
+    //         // button.setBackground(color);
+    //         // button.addActionListener(e -> {
+    //         //     selectedColor = color;
+    //         //     if (listener != null) {
+    //         //         listener.onColorSelected(selectedColor);
+    //         //     }
+    //         // });
+    //         add(button);
+    //     }
+    //     // public void addPaletteListener(PaletteListener listener) {
+    //     //     this.listener = listener;
+    //     // }
+
+    //     // public interface PaletteListener {
+    //     //     void onColorSelected(Color color);
+    //     // }
+    // }
 }
