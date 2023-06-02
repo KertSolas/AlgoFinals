@@ -6,21 +6,23 @@ import java.awt.event.MouseEvent;
 
 public class AlgoFinals extends JFrame {
 
-    private static final int PIXEL_SIZE = 10;
-    private static final int CANVAS_WIDTH = 80;
+    private static int PIXEL_SIZE = 10;
+    private static int CANVAS_WIDTH = 80;
     private static final int CANVAS_HEIGHT = 60;
 
     private static Color currentColor;
 
     public AlgoFinals() {
-        setTitle("8-Bit Paint Program");
+        setTitle("PAINT FINALS");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
 
         currentColor = Color.BLACK;
-
+        
+        
         Canvas canvas = new Canvas();
-        canvas.setPreferredSize(new Dimension(CANVAS_WIDTH * PIXEL_SIZE, CANVAS_HEIGHT * PIXEL_SIZE));
+        canvas.setPreferredSize(new Dimension(800, 600));
+        
         canvas.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -29,9 +31,10 @@ public class AlgoFinals extends JFrame {
                 canvas.setPixelColor(x, y, currentColor);
             }
         });
+        
 
         Palette palette = new Palette();
-        // Eraser eraser = new Eraser();
+
         palette.addButton(Color.BLACK);
         palette.addButton(Color.RED);
         palette.addButton(Color.GREEN);
@@ -40,11 +43,16 @@ public class AlgoFinals extends JFrame {
         palette.addButton(Color.CYAN);
         palette.addButton(Color.MAGENTA);
         palette.addButton(Color.WHITE);
+        palette.addEraser();
+
         palette.addPaletteListener(color -> currentColor = color);
+        
 
         getContentPane().setLayout(new BorderLayout());
+
         getContentPane().add(canvas, BorderLayout.CENTER);
-        getContentPane().add(palette, BorderLayout.WEST);
+        getContentPane().add(palette, BorderLayout.SOUTH);
+        // getContentPane().add(eraser, BorderLayout.AFTER_LAST_LINE);
    
 
         pack();
@@ -72,8 +80,6 @@ public class AlgoFinals extends JFrame {
                     }
                 }
             };
-    
-            addMouseListener(mouseAdapter);
             addMouseMotionListener(mouseAdapter);
         }
     
@@ -85,7 +91,7 @@ public class AlgoFinals extends JFrame {
             }
             repaint();
         }
-    
+   
         public void setPixelColor(int x, int y, Color color) {
             pixels[x][y] = color;
             repaint();
@@ -98,7 +104,7 @@ public class AlgoFinals extends JFrame {
                 return;
             }
     
-            floodFill(x, y, targetColor, color);
+            floodFill(x, y, targetColor, color);// applying the algorithm in the fill function 
             repaint();
         }
     
@@ -107,7 +113,7 @@ public class AlgoFinals extends JFrame {
             if (x < 0 || x >= CANVAS_WIDTH || y < 0 || y >= CANVAS_HEIGHT) {
                 return;
             }
-    
+         
             if (!pixels[x][y].equals(targetColor)) {
                 return;
             }
@@ -147,6 +153,18 @@ public class AlgoFinals extends JFrame {
             setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
             selectedColor = Color.BLACK;
         }
+        
+        public void addEraser() {
+            JButton button = new JButton(); 
+            button.setText("Eraser");
+            button.addActionListener(e -> {
+                selectedColor = Color.WHITE;
+                if (listener != null) {
+                    listener.onColorSelected(selectedColor);
+                }
+            });
+            add(button);
+        }
 
         public void addButton(Color color) {
             JButton button = new JButton();
@@ -169,38 +187,5 @@ public class AlgoFinals extends JFrame {
             void onColorSelected(Color color);
         }
     }
-
-
-    // Needs to be fixed
-    // public class Eraser extends JPanel {
-    //     private static final int BUTTON_SIZE = 20;
-
-    //     private Color selectedColor;
-    //     private Eraser listener;
-
-    //     public Eraser() {
-    //         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-    //         selectedColor = Color.BLACK;
-    //     }
-
-    //     public void addButton(Color color) {
-    //         JButton button = new JButton();
-    //         button.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
-    //         // button.setBackground(color);
-    //         // button.addActionListener(e -> {
-    //         //     selectedColor = color;
-    //         //     if (listener != null) {
-    //         //         listener.onColorSelected(selectedColor);
-    //         //     }
-    //         // });
-    //         add(button);
-    //     }
-    //     // public void addPaletteListener(PaletteListener listener) {
-    //     //     this.listener = listener;
-    //     // }
-
-    //     // public interface PaletteListener {
-    //     //     void onColorSelected(Color color);
-    //     // }
-    // }
+   
 }
